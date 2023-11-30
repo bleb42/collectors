@@ -11,16 +11,18 @@ public class ResourceSpawnpoint : MonoBehaviour
         IsResourceSpawned = false;
     }
 
-    public void SpawnResource(Resource resource)
+    public Resource SpawnResource(Resource resource)
     {
         IsResourceSpawned = true;
 
         _resource = Instantiate(resource, transform.position, Quaternion.identity);
         _resource.SetSpawnpoint(this); 
+    
+        return _resource;
     }
 
     public void SetAsFree()
     {
-        IsResourceSpawned= false;
+        IsResourceSpawned = false;
     }
 }

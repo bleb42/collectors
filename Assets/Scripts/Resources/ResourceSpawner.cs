@@ -4,6 +4,7 @@ using UnityEngine;
 public class ResourceSpawner : MonoBehaviour
 {
     [SerializeField] private float _spawnSpeed = 1f;
+    [SerializeField] private BaseScan _baseScan;
     [SerializeField] private ResourceSpawnpoint[] _spawnpoints;
     [SerializeField] private Resource[] _resources;
 
@@ -26,7 +27,7 @@ public class ResourceSpawner : MonoBehaviour
                 if (!spawnpoint.IsResourceSpawned)
                 {
                     resource = _resources[Random.Range(0, _resources.Length)];
-                    spawnpoint.SpawnResource(resource);
+                    _baseScan.AddResourceToTake(spawnpoint.SpawnResource(resource));
 
                     yield return spawnSpeed;
                 }

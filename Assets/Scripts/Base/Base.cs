@@ -3,27 +3,55 @@ using UnityEngine;
 
 [RequireComponent(typeof(BaseResources))]
 [RequireComponent(typeof(BaseScan))]
+[RequireComponent(typeof(BaseFlag))]
 public class Base : MonoBehaviour
 {
-    [SerializeField] private Collector _collector;
+    [SerializeField] private int _price = 5;
     [SerializeField] private int _startingNumberOfCollectors = 3;
-
-    private CollectorPlace[] _collectorPlaces;
+    [SerializeField] private int _collectorPrice = 3;
+    [SerializeField] private Collector _collector;
+    [SerializeField] private GameObject _secondBasePrefab;
     
-    private List<Collector> _collectors;
+
+    public int Price { get; private set; }
+    public int CollectorPrice { get; private set; }
+    public bool IsSecondBaseBuilded { get; private set; }
+    
+    private List<Collector> _collectors = new List<Collector>();
+    private CollectorPlace[] _collectorPlaces;
+
+    private BaseFlag _baseFlag;
 
     private void Awake()
     {
+        _baseFlag= GetComponent<BaseFlag>();
         _collectorPlaces = GetComponentsInChildren<CollectorPlace>();
-        _collectors = new List<Collector>();
+
+        CollectorPrice = _collectorPrice;
+        Price= _price;
+        IsSecondBaseBuilded = false;
     }
 
     private void Start()
     {
         for (int i = 0; i < _startingNumberOfCollectors; i++)
         {
-            SpawnCollector();
+            TrySpawnCollector();
         }
+    }
+
+    public bool TryBuildBase()
+    {
+        if (_baseFlag.Flag != null)
+        {
+            IsSecondBaseBuilded = true;
+
+            _collectors[Random.Range(0, _collectors.Count)].BuildBase(_baseFlag.Flag.transform.position, _secondBasePrefab, _baseFlag);
+
+            return IsSecondBaseBuilded;
+        }
+
+        return IsSecondBaseBuilded;
     }
 
     public void AppointCollector(Resource resourceToTake)
@@ -40,11 +68,11 @@ public class Base : MonoBehaviour
         }
     }
 
-    private void SpawnCollector()
+    public bool TrySpawnCollector()
     {
         if (_collectorPlaces.Length == 0)
         {
-            return;
+            return false;
         }
 
         foreach (var collectorPlace in _collectorPlaces)
@@ -54,11 +82,35 @@ public class Base : MonoBehaviour
                 Collector collector = Instantiate(_collector, collectorPlace.transform.position, Quaternion.identity);
                 
                 collector.TakePlace(collectorPlace);
-                collectorPlace.TakePlace();
+                collectorPlace.TakePlace(collector);
                 _collectors.Add(collector);
 
-                return;
+                return true;
             }
         }
+
+        return false;
+    }
+
+    public CollectorPlace TryAddCollector(Collector collector)
+    {
+        if (_collectorPlaces.Length == 0)
+        {
+            return null;
+        }
+
+        foreach (var collectorPlace in _collectorPlaces)
+        {
+            if (collectorPlace.IsFree)
+            {
+                collector.TakePlace(collectorPlace);
+                collectorPlace.TakePlace(collector);
+                _collectors.Add(collector);
+
+                return collectorPlace;
+            }
+        }
+
+        return null;
     }
 }

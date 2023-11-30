@@ -21,6 +21,19 @@ public class BaseScan : MonoBehaviour
         _scan = StartCoroutine(Scan());
     }
 
+    public void AddResourceToTake(Resource newResource)
+    {
+        Resource[] newArray = new Resource[_resources.Length + 1];
+
+        for (int i = 0; i < _resources.Length; i++)
+        {
+            newArray[i] = _resources[i];
+        }
+
+        newArray[_resources.Length] = newResource;
+        _resources = newArray;
+    }
+
     private IEnumerator Scan()
     {
         WaitForSeconds scanReload = new WaitForSeconds(_scanSpeed);
