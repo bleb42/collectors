@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Resource : MonoBehaviour
 {
+    [SerializeField] private BaseScan _baseScan;
     [SerializeField] private int _price = 1;
 
     public bool IsATarget { get; private set; }
@@ -18,7 +18,7 @@ public class Resource : MonoBehaviour
 
     public void SetAsTarget()
     {
-        IsATarget= true;
+        IsATarget = true;
     }
 
     public void Take(Collector collector)

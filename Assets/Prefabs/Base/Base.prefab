@@ -376,14 +376,6 @@ MonoBehaviour:
   _collectorPrice: 3
   _collector: {fileID: 2648521054615893272, guid: 22a6745957368d1419fbbe9dc69eb821, type: 3}
   _secondBasePrefab: {fileID: 4457515038221842668}
-  _collectorPlaces:
-  - {fileID: 4457515037121564090}
-  - {fileID: 4457515037867113496}
-  - {fileID: 4457515037400730026}
-  - {fileID: 4457515036401442534}
-  - {fileID: 4457515037991365527}
-  - {fileID: 4457515038430890378}
-  - {fileID: 4457515037340333832}
 --- !u!114 &4457515038221842661
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71fca959ce015c843a0447b38a9da8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _totalScore: {fileID: 2763495206090874537, guid: dece4d936d1484b4ab55772598d003ea, type: 3}
 --- !u!65 &4457515038221842662
 BoxCollider:
   m_ObjectHideFlags: 0

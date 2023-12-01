@@ -29,7 +29,7 @@ public class Collector : MonoBehaviour
         IsResorseTaked = false;
         NeedToBuildBase = false;
     }
-
+     
     public void ClaimResourse(Resource resource)
     {
         StopCoroutine(_findResource);

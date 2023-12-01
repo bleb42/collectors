@@ -1393,10 +1393,18 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.00000009536743
       objectReference: {fileID: 0}
+    - target: {fileID: 4457515038221842663, guid: e1526654077ce4143a26e10860e1adef, type: 3}
+      propertyPath: _totalScore
+      value: 
+      objectReference: {fileID: 1459783747}
     - target: {fileID: 4457515038221842668, guid: e1526654077ce4143a26e10860e1adef, type: 3}
       propertyPath: m_Name
       value: Base
       objectReference: {fileID: 0}
+    - target: {fileID: 4457515038221842671, guid: e1526654077ce4143a26e10860e1adef, type: 3}
+      propertyPath: _totalScore
+      value: 
+      objectReference: {fileID: 1459783747}
     - target: {fileID: 4457515038221842671, guid: e1526654077ce4143a26e10860e1adef, type: 3}
       propertyPath: _secondBasePrefab
       value: 

@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(BaseFlag))]
 public class BaseResources : MonoBehaviour
 {
-    private TotalScore _totalScore;
+    [SerializeField] private TotalScore _totalScore;
 
     public int Score { get; private set; }
 
@@ -15,7 +15,6 @@ public class BaseResources : MonoBehaviour
     {
         Score = 0;
 
-        _totalScore = FindObjectOfType<TotalScore>();
         _base = GetComponent<Base>();
         _baseFlag = GetComponent<BaseFlag>();
     }
@@ -24,8 +23,8 @@ public class BaseResources : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent(out Resource resource))
         {
-            _totalScore.UpdateScore(resource.Price);
             Destroy(resource.gameObject);
+            _totalScore.UpdateScore(resource.Price);
 
             if (_baseFlag.Flag != null)
             {

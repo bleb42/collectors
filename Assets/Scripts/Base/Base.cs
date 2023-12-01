@@ -1,8 +1,7 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
-[RequireComponent(typeof(BaseResources))]
-[RequireComponent(typeof(BaseScan))]
 [RequireComponent(typeof(BaseFlag))]
 public class Base : MonoBehaviour
 {
@@ -11,7 +10,6 @@ public class Base : MonoBehaviour
     [SerializeField] private int _collectorPrice = 3;
     [SerializeField] private Collector _collector;
     [SerializeField] private GameObject _secondBasePrefab;
-    
 
     public int Price { get; private set; }
     public int CollectorPrice { get; private set; }
@@ -113,4 +111,10 @@ public class Base : MonoBehaviour
 
         return null;
     }
+
+    public void AddCollectorSpawnPoints(CollectorPlace[] collectorPlaces)
+    {
+        _collectorPlaces.AddRange(collectorPlaces);
+    }
+
 }

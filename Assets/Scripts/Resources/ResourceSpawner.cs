@@ -15,6 +15,12 @@ public class ResourceSpawner : MonoBehaviour
         _spawnResorces = StartCoroutine(SpawnResource());
     }
 
+    private void OnDisable()
+    {
+        if (_spawnResorces != null)
+            StopCoroutine(_spawnResorces);
+    }
+
     private IEnumerator SpawnResource()
     {
         WaitForSeconds spawnSpeed = new WaitForSeconds(_spawnSpeed);

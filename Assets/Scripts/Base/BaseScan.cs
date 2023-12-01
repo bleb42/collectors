@@ -6,7 +6,7 @@ public class BaseScan : MonoBehaviour
 {
     [SerializeField] private float _scanSpeed;
 
-    private Resource[] _resources;
+    private Resource[] _resources = new Resource[0];
 
     private Coroutine _scan;
     private Base _base;
@@ -19,6 +19,12 @@ public class BaseScan : MonoBehaviour
     private void Start()
     {
         _scan = StartCoroutine(Scan());
+    }
+
+    private void OnDisable()
+    {
+        if (_scan != null)
+            StopCoroutine(_scan);
     }
 
     public void AddResourceToTake(Resource newResource)
@@ -40,9 +46,6 @@ public class BaseScan : MonoBehaviour
 
         while (true) 
         {
-            _resources = null;  
-            _resources = FindObjectsOfType<Resource>();
-
             if (_resources.Length >= 0)
             {
                 foreach (var resource in _resources) 
