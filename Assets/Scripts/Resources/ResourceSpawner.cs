@@ -4,7 +4,7 @@ using UnityEngine;
 public class ResourceSpawner : MonoBehaviour
 {
     [SerializeField] private float _spawnSpeed = 1f;
-    [SerializeField] private BaseScan _baseScan;
+    [SerializeField] private ResourceScan _baseScan;
     [SerializeField] private ResourceSpawnpoint[] _spawnpoints;
     [SerializeField] private Resource[] _resources;
 

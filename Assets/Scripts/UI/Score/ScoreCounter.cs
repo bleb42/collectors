@@ -4,10 +4,10 @@ using UnityEngine;
 public class ScoreCounter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _score;
-    [SerializeField] private TotalScore _totalScore;
+    [SerializeField] private BaseResources _baseResources;
 
     public void UpdateScore()
     {
-        _score.text = $"{_totalScore.Score}";
+        _score.text = $"{_baseResources.Score}";
     }
 }

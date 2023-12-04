@@ -1,31 +1,27 @@
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
+[RequireComponent(typeof(BaseResources))]
+[RequireComponent(typeof(CollectorCreator))]
 [RequireComponent(typeof(BaseFlag))]
 public class Base : MonoBehaviour
 {
     [SerializeField] private int _price = 5;
     [SerializeField] private int _startingNumberOfCollectors = 3;
-    [SerializeField] private int _collectorPrice = 3;
-    [SerializeField] private Collector _collector;
     [SerializeField] private GameObject _secondBasePrefab;
 
     public int Price { get; private set; }
-    public int CollectorPrice { get; private set; }
     public bool IsSecondBaseBuilded { get; private set; }
-    
-    private List<Collector> _collectors = new List<Collector>();
-    private CollectorPlace[] _collectorPlaces;
 
+    private CollectorCreator _collectorCreator;
     private BaseFlag _baseFlag;
+    private BaseResources _baseResources;
 
     private void Awake()
     {
         _baseFlag= GetComponent<BaseFlag>();
-        _collectorPlaces = GetComponentsInChildren<CollectorPlace>();
+        _collectorCreator = GetComponent<CollectorCreator>();
+        _baseResources = GetComponent<BaseResources>();
 
-        CollectorPrice = _collectorPrice;
         Price= _price;
         IsSecondBaseBuilded = false;
     }
@@ -34,27 +30,21 @@ public class Base : MonoBehaviour
     {
         for (int i = 0; i < _startingNumberOfCollectors; i++)
         {
-            TrySpawnCollector();
+            _collectorCreator.TrySpawnCollector();
         }
     }
 
-    public bool TryBuildBase()
+    public void BuildBase()
     {
-        if (_baseFlag.Flag != null)
-        {
-            IsSecondBaseBuilded = true;
+        IsSecondBaseBuilded = true;
 
-            _collectors[Random.Range(0, _collectors.Count)].BuildBase(_baseFlag.Flag.transform.position, _secondBasePrefab, _baseFlag);
-
-            return IsSecondBaseBuilded;
-        }
-
-        return IsSecondBaseBuilded;
+        _collectorCreator.Collectors[Random.Range(0, _collectorCreator.Collectors.Count)]
+            .BuildBase(_baseFlag.Flag.transform.position, _secondBasePrefab, _baseFlag, _baseResources.ScoreCounter);
     }
 
     public void AppointCollector(Resource resourceToTake)
     {
-        foreach (var collector in _collectors)
+        foreach (var collector in _collectorCreator.Collectors)
         {
             if (!collector.IsWorking)
             {
@@ -65,56 +55,4 @@ public class Base : MonoBehaviour
             }
         }
     }
-
-    public bool TrySpawnCollector()
-    {
-        if (_collectorPlaces.Length == 0)
-        {
-            return false;
-        }
-
-        foreach (var collectorPlace in _collectorPlaces)
-        {
-            if (collectorPlace.IsFree)
-            {
-                Collector collector = Instantiate(_collector, collectorPlace.transform.position, Quaternion.identity);
-                
-                collector.TakePlace(collectorPlace);
-                collectorPlace.TakePlace(collector);
-                _collectors.Add(collector);
-
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public CollectorPlace TryAddCollector(Collector collector)
-    {
-        if (_collectorPlaces.Length == 0)
-        {
-            return null;
-        }
-
-        foreach (var collectorPlace in _collectorPlaces)
-        {
-            if (collectorPlace.IsFree)
-            {
-                collector.TakePlace(collectorPlace);
-                collectorPlace.TakePlace(collector);
-                _collectors.Add(collector);
-
-                return collectorPlace;
-            }
-        }
-
-        return null;
-    }
-
-    public void AddCollectorSpawnPoints(CollectorPlace[] collectorPlaces)
-    {
-        _collectorPlaces.AddRange(collectorPlaces);
-    }
-
 }

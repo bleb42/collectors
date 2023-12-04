@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Resource : MonoBehaviour
 {
-    [SerializeField] private BaseScan _baseScan;
     [SerializeField] private int _price = 1;
 
     public bool IsATarget { get; private set; }
@@ -29,6 +28,6 @@ public class Resource : MonoBehaviour
 
     public void SetSpawnpoint(ResourceSpawnpoint spawnpoint)
     {
-        _spawnpoint= spawnpoint;
+        _spawnpoint = spawnpoint;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Base))]
-public class BaseScan : MonoBehaviour
+public class ResourceScan : MonoBehaviour
 {
     [SerializeField] private float _scanSpeed;
 
@@ -44,11 +44,11 @@ public class BaseScan : MonoBehaviour
     {
         WaitForSeconds scanReload = new WaitForSeconds(_scanSpeed);
 
-        while (true) 
+        while (true)
         {
             if (_resources.Length >= 0)
             {
-                foreach (var resource in _resources) 
+                foreach (var resource in _resources)
                 {
                     if (!resource.IsATarget)
                     {

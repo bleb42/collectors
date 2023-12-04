@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(CollectorCollision))]
+[RequireComponent(typeof(CollectorCreator))]
 public class Collector : MonoBehaviour
 {
     [SerializeField] private float _speed;
@@ -22,6 +23,7 @@ public class Collector : MonoBehaviour
     private Vector3 _flagPosition;
     private GameObject _basePrefab;
     private BaseFlag _baseFlag;
+    private ScoreCounter _scoreCounter;
 
     private void Awake()
     {
@@ -48,10 +50,10 @@ public class Collector : MonoBehaviour
     public void TakeResource(Resource resourceToTake)
     {
         _findResource = StartCoroutine(FindResource(resourceToTake));
-        TargetResourseToTake= resourceToTake;
+        TargetResourseToTake = resourceToTake;
     }
 
-    public void BuildBase(Vector3 position, GameObject basePrefab, BaseFlag baseFlag)
+    public void BuildBase(Vector3 position, GameObject basePrefab, BaseFlag baseFlag, ScoreCounter scoreSounter)
     {
         NeedToBuildBase = true;
         IsWorking = true;
@@ -59,6 +61,7 @@ public class Collector : MonoBehaviour
         _basePrefab = basePrefab;
         _flagPosition = position;
         _baseFlag = baseFlag;
+        _scoreCounter = scoreSounter;
     }
 
     private IEnumerator BuildBase()
@@ -81,10 +84,12 @@ public class Collector : MonoBehaviour
         _baseFlag.DestroyFlag();
 
         GameObject newBase = Instantiate(_basePrefab, new Vector3(_flagPosition.x, 0, _flagPosition.z), Quaternion.identity);
+        BaseResources baseResources = newBase.GetComponent<BaseResources>();
+        baseResources.AddScoreCounter(_scoreCounter);
 
-        if (newBase.TryGetComponent(out Base Base))
+        if (newBase.TryGetComponent(out CollectorCreator collectorCreator))
         {
-            Base.TryAddCollector(this);
+            collectorCreator.TryAddCollector(this);
         }
 
         IsWorking = false;
